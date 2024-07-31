@@ -89,7 +89,7 @@ function App() {
           <img src="./imgcontact.png" alt="" />
         </div>
         <div className="container text-right pl-0">
-          <h2 className="px-8 md:p-0text-4xl font-medium mb-10">Contato</h2>
+          <h2 className="px-8 md:p-0 text-4xl font-medium mb-10">Contato</h2>
           <p className="px-8 md:p-0 font-light text-xl mb-10 text-left">
             Tem dúvidas ou deseja saber mais sobre nossas soluções? Entre em contato conosco!
           </p>
