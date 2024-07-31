@@ -4,10 +4,10 @@ function App() {
 
   return (
     <>
-      <header className="fixed w-screen bg-[#91F4CB] py-4">
-        <div className="container flex justify-between items-center">
+      <header className="fixed w-screen bg-[#91F4CB] py-4 shadow-xl">
+        <div className="container max-w-[2560px] flex justify-between items-center">
           <h1 className="text-4xl font-light">SeuRoteiro</h1>
-          <nav>
+          <nav className="flex flex-1 justify-end">
             <ul className="flex font-light space-x-8">
               <li><a href="#hero" className="hover:underline">Home</a></li>
               <li><a href="#about" className="hover:underline">Quem somos</a></li>
@@ -20,8 +20,8 @@ function App() {
       </header>
 
 
-      <section id="hero" className="flex bg-white h-full md:h-screen py-16">
-        <div className="container mt-40 text-[#2E2E2E] text-center md:text-left md:w-[60%]">
+      <section id="hero" className="flex bg-white h-screen py-16">
+        <div className="container max-w-[2560px] mt-40 text-[#2E2E2E] text-center md:text-left md:w-[60%]">
           <h2 className="px-8 md:p-0 text-5xl font-bold leading-tight">Encontre o Roteiro Perfeito para Você!</h2>
           <p className="px-8 md:p-0 mt-14 leading-normal -tracking-tighter">
             Viajar é uma das maiores alegrias da vida, mas planejar um roteiro perfeito pode ser desafiador. Encontre o destino ideal e as atividades mais incríveis, tudo personalizado para você. 
@@ -32,7 +32,7 @@ function App() {
           </button>
         </div>
         <div className="hidden md:flex w-[40%] -mr-20">
-          <img src="./imghero.png" alt="" />
+          <img src="./imghero.png" alt="" /> 
         </div>
       </section>
       
@@ -41,7 +41,7 @@ function App() {
             <h2 className="px-8 md:p-0 font-medium text-4xl">Quem somos</h2>
           </div>
 
-          <div className="container mt-14">
+          <div className="container max-w-[2560px] mt-14">
             <p className="px-8 md:p-0  font-light text-xl leading-relaxed -tracking-tighter">
 
               Somos apaixonados por viagens e acreditamos que cada pessoa merece uma experiência única e inesquecível. 
@@ -55,7 +55,7 @@ function App() {
       </section>
 
       <section id="how-it-works" className="bg-[#91F4CB] h-full md:h-screen py-16">
-        <div className="container">
+        <div className="container max-w-[2560px]">
           <h2 className="px-8 md:p-0 font-medium text-4xl mb-12">Como funciona</h2>
           <div className="px-8 md:p-0 flex md:flex-row flex-col gap-8 items-center justify-between text-center">
             <div className="flex flex-col flex-1 p-4 gap-4 bg-white rounded-2xl">
@@ -84,11 +84,11 @@ function App() {
         </div>
       </section>
 
-      <section id="contact" className="flex bg-white py-16 text-[#2E2E2E]">
-        <div className="hidden md:flex container pr-0">
+      <section id="contact" className="flex w-screen bg-white py-16 text-[#2E2E2E]">
+        <div className="hidden md:flex container max-w-[2560px] pr-0">
           <img src="./imgcontact.png" alt="" />
         </div>
-        <div className="container text-right pl-0">
+        <div className="container max-w-[2560px] text-right pl-0">
           <h2 className="px-8 md:p-0 text-4xl font-medium mb-10">Contato</h2>
           <p className="px-8 md:p-0 font-light text-xl mb-10 text-left">
             Tem dúvidas ou deseja saber mais sobre nossas soluções? Entre em contato conosco!
