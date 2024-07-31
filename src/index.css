@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input, textarea, h1,h2,h3,h4,h5,h6, p, li, th, td {
+  font-family: 'Poppins', sans-serif;
+}
+
+input {
+  cursor: text
+}
+
+body {
+  @apply bg-white;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer utilities {
+    @variants responsive {
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
+    }
+}
+
+@media (max-width: 1440px){
+    html{
+        font-size: 87.5%;
+    }
+}
+
+@media (max-width: 1280px){
+    html{
+        font-size: 82%;
+    }
+}
+
+@media (max-width: 980px){
+    html{
+        font-size: 75%;
+    }
+}
+
+@media (max-width: 720px){
+    html{
+        font-size: 70%;
+    }
+}
