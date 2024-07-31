@@ -57,7 +57,7 @@ function App() {
       <section id="how-it-works" className="bg-[#91F4CB] h-full md:h-screen py-16">
         <div className="container">
           <h2 className="px-8 md:p-0 font-medium text-4xl mb-12">Como funciona</h2>
-          <div className="flex md:flex-row flex-col gap-8 items-center justify-between text-center">
+          <div className="px-8 md:p-0 flex md:flex-row flex-col gap-8 items-center justify-between text-center">
             <div className="flex flex-col flex-1 p-4 gap-4 bg-white rounded-2xl">
               <img src="./imgform.png" alt="Placeholder" className="mb-4" />
               <h3 className="font-bold text-xl">Preencha o formulário</h3>
@@ -89,7 +89,7 @@ function App() {
           <img src="./imgcontact.png" alt="" />
         </div>
         <div className="container text-right pl-0">
-          <h2 className="text-4xl font-medium mb-10">Contato</h2>
+          <h2 className="px-8 md:p-0text-4xl font-medium mb-10">Contato</h2>
           <p className="px-8 md:p-0 font-light text-xl mb-10 text-left">
             Tem dúvidas ou deseja saber mais sobre nossas soluções? Entre em contato conosco!
           </p>
