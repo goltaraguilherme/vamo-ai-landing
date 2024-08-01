@@ -17,6 +17,7 @@ function App() {
     e.preventDefault();
     setFormData({
       ...formData,
+      //@ts-ignore
       [e.target.name]: e.target.value,
     });
   };
