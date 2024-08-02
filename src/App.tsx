@@ -25,21 +25,21 @@ function App() {
   return (
     <>
       <header className="fixed w-screen bg-[#91F4CB] py-4 shadow-xl">
-        <div className="container max-w-[2560px] flex justify-between items-center">
-          <h1 className="text-4xl font-light">SeuRoteiro</h1>
-          <nav className="flex flex-1 justify-end">
+        <div className="container max-w-[2560px] flex md:justify-between items-center">
+          <h1 className="text-4xl font-light ml-8 md:ml-0">SeuRoteiro</h1>
+          <nav className="flex flex-1 justify-end mr-8 md:mr-0">
             <ul className="flex font-light space-x-8">
-              <li>
+              <li className="hidden sm:flex">
                 <a href="#hero" className="hover:underline">
                   Home
                 </a>
               </li>
-              <li>
+              <li className="hidden sm:flex">
                 <a href="#about" className="hover:underline">
                   Quem somos
                 </a>
               </li>
-              <li>
+              <li className="hidden sm:flex">
                 <a href="#how-it-works" className="hover:underline">
                   Como funciona
                 </a>
@@ -49,7 +49,7 @@ function App() {
                   Formulário
                 </a>
               </li>
-              <li>
+              <li className="hidden sm:flex">
                 <a href="#contact" className="hover:underline">
                   Contato
                 </a>
@@ -60,7 +60,7 @@ function App() {
       </header>
 
       <section id="hero" className="flex bg-white h-screen py-16">
-        <div className="container max-w-[2560px] mt-60 md:mt-40 text-[#2E2E2E] text-center md:text-left md:w-[60%]">
+        <div className="container max-w-[2560px] mt-40 text-[#2E2E2E] text-center md:text-left md:w-[60%]">
           <h2 className="px-8 md:p-0 text-5xl font-bold leading-tight">
             Encontre o Roteiro Perfeito para Você!
           </h2>
@@ -737,7 +737,7 @@ function App() {
                         rows={4}
                         id=""
                         name=""
-                        placeholder="Nome da atração"
+                        placeholder="Comentários extras"
                         //onChange={}
                         className="w-full p-2 border border-gray-300 rounded"
                         //required
@@ -780,16 +780,16 @@ function App() {
           <div className="flex w-full justify-around">
             <button
               className="w-[30%] py-4 px-6 text-red-500 font-bold border-red-500 border rounded-full"
-              onClick={() => setFormPage([1, 0].includes(formPage) ? 0 : formPage - 1)}
+              onClick={() => formPage == 0 ? setFormIsOpen(false) : setFormPage(formPage - 1)}
             >
-              Voltar
+              {formPage == 0 ? "Cancelar" : "Voltar"}
             </button>
 
             <button
               className="w-[30%] py-4 px-6 bg-[#91F4CB] font-bold border-[#91F4CB] border rounded-full "
-              onClick={() => setFormPage([2, 3].includes(formPage) ? 3 : formPage + 1)}
+              onClick={() => setFormPage(formPage <= 2 ? formPage + 1 : formPage)}
             >
-              Avançar
+              {formPage == 3 ? "Enviar" : "Avançar"}
             </button>
           </div>
         </div>
