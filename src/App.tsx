@@ -10,18 +10,44 @@ function App() {
     destinationCity: "",
     departureDate: "",
     returnDate: "",
+    transportation: [],
+    company: [],
+    accommodation: [],
+    interests: [],
+    budget: "",
+    spendingPriority: {
+      food: "",
+      tours: "",
+      lodging: "",
+    },
+    specificAttraction: "",
+    excludeAttraction: "",
+    additionalComments: "",
   });
   const [formPage, setFormPage] = useState<number>(0);
 
-  const handleChange = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormData({
-      ...formData,
-      //@ts-ignore
-      [e.target.name]: e.target.value,
-    });
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked } = e.target;
 
+    if (type === 'checkbox') {
+      if (checked) {
+        setFormData({
+          ...formData,
+          [name]: [...formData[name], value],
+        });
+      } else {
+        setFormData({
+          ...formData,
+          [name]: formData[name].filter((item: string) => item !== value),
+        });
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
   return (
     <>
       <header className="fixed w-screen bg-[#91F4CB] py-4 shadow-xl">
@@ -320,7 +346,7 @@ function App() {
                   <div className="flex flex-col flex-1 gap-4">
                     <div className="flex flex-col mb-4 flex-1">
                       <label
-                        htmlFor="loc"
+                        htmlFor="transportation"
                         className="block text-gray-700 font-bold mb-2"
                       >
                         Já sabe como pretende se locomover no seu destino?
@@ -330,11 +356,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="carrop"
-                          name="loc"
+                          name="transportation"
                           value="Carro próprio"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="carrop">Carro próprio</label>
                       </div>
@@ -343,11 +368,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="carroa"
-                          name="loc"
+                          name="transportation"
                           value="Carro alugado"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="carroa">Carro alugado</label>
                       </div>
@@ -356,11 +380,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="transp"
-                          name="loc"
+                          name="transportation"
                           value="Transporte pub"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="transp">Transporte público</label>
                       </div>
@@ -369,28 +392,26 @@ function App() {
                         <input
                           type="checkbox"
                           id="taxi"
-                          name="loc"
+                          name="transportation"
                           value="Taxi"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="taxi">Uber/Táxi</label>
                       </div>
                     </div>
                     <div className="mb-4 flex-1">
-                      <label className="block text-gray-700 font-bold mb-2">
+                      <label htmlFor="company" className="block text-gray-700 font-bold mb-2">
                         Quem será sua companhia nesta viagem?
                       </label>
                       <div className="flex items-center">
                         <input
                           type="checkbox"
                           id="solo"
-                          name="loc"
+                          name="company"
                           value="Solo"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="solo">Vou sozinho</label>
                       </div>
@@ -399,11 +420,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="casal"
-                          name="loc"
+                          name="company"
                           value="Casal"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="casal">Minha parceira(o)</label>
                       </div>
@@ -412,11 +432,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="amigos"
-                          name="loc"
+                          name="company"
                           value="Amigos"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="amigos">Amigos</label>
                       </div>
@@ -425,11 +444,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="familia"
-                          name="loc"
+                          name="company"
                           value="Familia"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="familia">Familiares</label>
                       </div>
@@ -437,7 +455,7 @@ function App() {
                   </div>
 
                   <div className="mb-4 flex-1">
-                    <label className="block text-gray-700 font-bold mb-2">
+                    <label htmlFor="accommodation" className="block text-gray-700 font-bold mb-2">
                       Deseja incluir recomendações de hospedagem no roteiro? Se
                       sim, qual tipo de hospedagem você prefere?
                     </label>
@@ -445,11 +463,10 @@ function App() {
                       <input
                         type="checkbox"
                         id="hotel"
-                        name="loc"
+                        name="accommodation"
                         value="Hotel"
-                        //onChange={}
+                        onChange={handleChange}
                         className="cursor-pointer mr-3"
-                        //required
                       />
                       <label htmlFor="hotel">Hotel</label>
                     </div>
@@ -458,11 +475,10 @@ function App() {
                       <input
                         type="checkbox"
                         id="pousada"
-                        name="loc"
+                        name="accommodation"
                         value="Pousada"
-                        //onChange={}
+                        onChange={handleChange}
                         className="cursor-pointer mr-3"
-                        //required
                       />
                       <label htmlFor="pousada">Pousada</label>
                     </div>
@@ -471,11 +487,10 @@ function App() {
                       <input
                         type="checkbox"
                         id="airbnb"
-                        name="loc"
+                        name="accommodation"
                         value="Airbnb"
-                        //onChange={}
+                        onChange={handleChange}
                         className="cursor-pointer mr-3"
-                        //required
                       />
                       <label htmlFor="airbnb">Airbnb</label>
                     </div>
@@ -484,11 +499,10 @@ function App() {
                       <input
                         type="checkbox"
                         id="hostel"
-                        name="loc"
+                        name="accommodation"
                         value="Hostel"
-                        //onChange={}
+                        onChange={handleChange}
                         className="cursor-pointer mr-3"
-                        //required
                       />
                       <label htmlFor="hostel">Hostel</label>
                     </div>
@@ -497,11 +511,10 @@ function App() {
                       <input
                         type="text"
                         id=""
-                        name=""
+                        name="accommodation"
                         placeholder="Já sei onde ficar"
-                        //onChange={}
+                        onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
-                        //required
                       />
                     </div>
                   </div>
@@ -513,7 +526,7 @@ function App() {
                   <div className="flex flex-col flex-1 gap-4">
                     <div className="flex flex-col mb-4 flex-1">
                       <label
-                        htmlFor="loc"
+                        htmlFor="interests"
                         className="block text-gray-700 font-bold mb-2"
                       >
                         Quais são seus interesses principais durante a viagem?
@@ -523,11 +536,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="praias"
-                          name="loc"
+                          name="interests"
                           value="Praias"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="praias">Praias</label>
                       </div>
@@ -536,11 +548,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="montanha"
-                          name="loc"
+                          name="interests"
                           value="Montanha"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="montanha">Montanhas</label>
                       </div>
@@ -549,11 +560,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="trilha"
-                          name="loc"
+                          name="interests"
                           value="trilha"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="trilha">Trilhas</label>
                       </div>
@@ -562,11 +572,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="cacho"
-                          name="loc"
+                          name="interests"
                           value="Cachoeiras"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="cacho">Cachoeiras</label>
                       </div>
@@ -575,11 +584,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="cultura"
-                          name="loc"
+                          name="interests"
                           value="Cultura"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="cultura">Cultura</label>
                       </div>
@@ -588,11 +596,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="rest"
-                          name="loc"
+                          name="interests"
                           value="Restaurantes"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="rest">Restaurantes</label>
                       </div>
@@ -601,11 +608,10 @@ function App() {
                         <input
                           type="checkbox"
                           id="vidanot"
-                          name="loc"
+                          name="interests"
                           value="Vida noturna"
-                          //onChange={}
+                          onChange={handleChange}
                           className="cursor-pointer mr-3"
-                          //required
                         />
                         <label htmlFor="vidanot">Vida noturna</label>
                       </div>
@@ -614,36 +620,34 @@ function App() {
                         <input
                           type="text"
                           id="outro"
-                          name="loc"
+                          name="interests"
                           value=""
                           placeholder="Outro"
-                          //onChange={}
+                          onChange={handleChange}
                           className="w-full p-2 border border-gray-300 rounded"
-                          //required
                         />
                       </div>
                     </div>
                   </div>
 
                   <div className="mb-4 flex-1">
-                    <label className="block text-gray-700 font-bold mb-2">
+                    <label htmlFor="budget" className="block text-gray-700 font-bold mb-2">
                       Qual é o seu orçamento estimado para a viagem? (Se souber)
                     </label>
 
                     <div className="flex items-center mt-2">
                       <input
                         type="number"
-                        id=""
-                        name=""
+                        id="budget"
+                        name="budget"
                         placeholder="Orçamento"
-                        //onChange={}
+                        onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
-                        //required
                       />
                     </div>
 
                     <div className="my-4 flex-1">
-                      <label className="block text-gray-700 font-bold mb-2">
+                      <label htmlFor="spendingPriority" className="block text-gray-700 font-bold mb-2">
                         Prioridade de gastos (enumerar de 1 a 3)
                       </label>
 
@@ -651,12 +655,11 @@ function App() {
                         <label>Alimentação</label>
                         <input
                           type="number"
-                          id=""
-                          name=""
+                          id="food"
+                          name="spendingPriority.food"
                           placeholder="Prioridade"
-                          //onChange={}
+                          onChange={handleChange}
                           className="ml-2 w-full p-2 border border-gray-300 rounded"
-                          //required
                         />
                       </div>
 
@@ -664,12 +667,11 @@ function App() {
                         <label>Passeios</label>
                         <input
                           type="number"
-                          id=""
-                          name=""
+                          id="tours"
+                          name="spendingPriority.tours"
                           placeholder="Prioridade"
-                          //onChange={}
+                          onChange={handleChange}
                           className="ml-2 w-full p-2 border border-gray-300 rounded"
-                          //required
                         />
                       </div>
 
@@ -677,12 +679,11 @@ function App() {
                         <label>Hospedagens</label>
                         <input
                           type="number"
-                          id=""
-                          name=""
+                          id="accommodation"
+                          name="spendingPriority.accommodation"
                           placeholder="Prioridade"
-                          //onChange={}
+                          onChange={handleChange}
                           className="ml-2 w-full p-2 border border-gray-300 rounded"
-                          //required
                         />
                       </div>
                     </div>
@@ -693,54 +694,51 @@ function App() {
               <>
                 <div className="mt-6 flex gap-8">
                   <div className="flex flex-col flex-1 gap-4">
-                    <label className="block text-gray-700 font-bold">
+                    <label htmlFor="specificAttraction" className="block text-gray-700 font-bold">
                       Deseja conhecer alguma atração específica da região?
                     </label>
 
                     <div className="flex items-center">
                       <input
                         type="text"
-                        id=""
-                        name=""
+                        id="specificAttraction"
+                        name="specificAttraction"
                         placeholder="Nome da atração"
-                        //onChange={}
+                        onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
-                        //required
                       />
                     </div>
 
                     <div className="flex flex-col flex-1 gap-4">
-                      <label className="block text-gray-700 font-bold">
+                      <label htmlFor="excludeAttraction" className="block text-gray-700 font-bold">
                         Há alguma atração que não deseja incluir?
                       </label>
 
                       <div className="flex items-center">
                         <input
                           type="text"
-                          id=""
-                          name=""
+                          id="excludeAttraction"
+                          name="excludeAttraction"
                           placeholder="Nome da atração"
-                          //onChange={}
+                          onChange={handleChange}
                           className="w-full p-2 border border-gray-300 rounded"
-                          //required
                         />
                       </div>
                     </div>
 
                     <div className="flex flex-col flex-1 gap-4">
-                    <label className="block text-gray-700 font-bold">
+                    <label htmlFor="additionalComments" className="block text-gray-700 font-bold">
                       Esquemos de algo? Fique livre para ponderações adicionais que desejar
                     </label>
                   
                     <div className="flex items-center">
                       <textarea
                         rows={4}
-                        id=""
-                        name=""
+                        id="additionalComments"
+                        name="additionalComments"
                         placeholder="Comentários extras"
-                        //onChange={}
+                        onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
-                        //required
                       />
                     </div>
                   </div>
