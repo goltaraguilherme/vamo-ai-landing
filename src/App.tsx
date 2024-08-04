@@ -18,7 +18,7 @@ function App() {
     spendingPriority: {
       food: "",
       tours: "",
-      lodging: "",
+      accommodation: "",
     },
     specificAttraction: "",
     excludeAttraction: "",
