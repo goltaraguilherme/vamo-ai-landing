@@ -1,7 +1,16 @@
 import { useState } from "react";
+import axios from "axios";
 import "./index.css";
 
 function App() {
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [formContactData, setFormContactData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
   const [formIsOpen, setFormIsOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -27,17 +36,20 @@ function App() {
   const [formPage, setFormPage] = useState<number>(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    //@ts-ignore
     const { name, value, type, checked } = e.target;
 
     if (type === 'checkbox') {
       if (checked) {
         setFormData({
           ...formData,
+          //@ts-ignore
           [name]: [...formData[name], value],
         });
       } else {
         setFormData({
           ...formData,
+          //@ts-ignore
           [name]: formData[name].filter((item: string) => item !== value),
         });
       }
@@ -48,6 +60,63 @@ function App() {
       });
     }
   };
+
+  const handleChangeContact = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.preventDefault();
+    //@ts-ignore
+    const { name, value, type, checked } = e.target;
+      
+    setFormContactData({...formContactData, [name]: value,});
+  };
+
+  async function sendContactEmail(){
+    try {
+      setIsLoading(true)
+      await axios.post("https://api-send-mailer.vercel.app/send_email", {
+        respostas: JSON.stringify(formContactData),
+        type: "Contato"
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "https://seuroteiro.vercel.app/"
+        }
+      })
+
+      alert("Mensagem enviada com sucesso. Agradecemos pelo feedback! :)")
+    } catch (err) {
+      console.log(err)
+      alert("Erro ao enviar mensagem. Tente novamente mais tarde.")
+    } finally{
+      setIsLoading(false)
+    }
+  }
+
+  async function sendFormEmail(){
+    try {
+      if(formData.email != ""){
+        setIsLoading(true)
+        await axios.post("https://api-send-mailer.vercel.app/send_email", {
+          respostas: JSON.stringify(formData),
+          type: "Respostas Forms"
+        },{
+          headers: {
+            "Access-Control-Allow-Origin": "https://seuroteiro.vercel.app//"
+          }
+        })
+  
+        alert("Parabéns, viajante! Formulário enviado com sucesso.\n\nEm torno de 3 dias enviaremos seu roteiro personalizado para o seu email! :)")
+      }else{
+        alert("Favor preencher o campo de email para que possamos enviar seu roteiro personalizado!")
+      }
+      
+    } catch (err) {
+      console.log(err)
+      alert("Erro ao enviar mensagem. Tente novamente mais tarde.")
+    } finally{
+      setIsLoading(false)
+    }
+  }
+
   return (
     <>
       <header className="fixed w-screen bg-[#91F4CB] py-4 shadow-xl">
@@ -183,24 +252,46 @@ function App() {
             Tem dúvidas ou deseja saber mais sobre nossas soluções? Entre em
             contato conosco!
           </p>
-          <form className="px-8 md:p-0">
+          <form 
+            className="px-8 md:p-0"
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendContactEmail()
+            }}>
             <input
               type="text"
+              id="name"
+              name="name"
+              value={formContactData.name}
+              onChange={handleChangeContact}
               placeholder="Nome"
               className="w-full p-2 mb-4 border border-black rounded"
+              required
             />
             <input
               type="email"
+              id="email"
+              name="email"
+              value={formContactData.email}
+              onChange={handleChangeContact}
               placeholder="Email"
               className="w-full p-2 mb-4 border border-black rounded"
+              required
             />
             <textarea
               placeholder="Mensagem"
+              id="message"
+              name="message"
+              value={formContactData.message}
+              onChange={handleChangeContact}
               rows={6}
               className="w-full p-2 mb-4 border border-black rounded"
+              required
             ></textarea>
-            <button className="bg-[#7371f9] shadow-md text-white py-3 px-8 rounded-lg hover:bg-purple-700">
-              Enviar
+            <button 
+              type="submit"
+              className="bg-[#7371f9] shadow-md text-white py-3 px-8 rounded-lg hover:bg-purple-700">
+              {isLoading ? "Carregando" : "Enviar"}
             </button>
           </form>
         </div>
@@ -785,8 +876,9 @@ function App() {
 
             <button
               className="w-[30%] py-4 px-6 bg-[#91F4CB] font-bold border-[#91F4CB] border rounded-full "
-              onClick={() => setFormPage(formPage <= 2 ? formPage + 1 : formPage)}
-            >
+              onClick={() => {
+                formPage == 3 ? sendFormEmail() : setFormPage(formPage <= 2 ? formPage + 1 : formPage)
+              }}>
               {formPage == 3 ? "Enviar" : "Avançar"}
             </button>
           </div>
