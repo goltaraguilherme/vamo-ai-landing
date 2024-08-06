@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactGA from 'react-ga4';
 import "./index.css";
-import * as dotenv from "dotenv"
-
-dotenv.config()
 
 const useAnalyticsEventTracker = (category="Lading") => {
   const eventTracker = (action = "test action", label = "test label") => {
@@ -14,8 +11,7 @@ const useAnalyticsEventTracker = (category="Lading") => {
 }
 
 function App() {
-  //@ts-ignore
-  ReactGA.initialize(process.env.TRACKING_ID);
+  ReactGA.initialize("G-7P5B306WGR");
   const gaEventOpenFormTracker = useAnalyticsEventTracker('Open Form');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
