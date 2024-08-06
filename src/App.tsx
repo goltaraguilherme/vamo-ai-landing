@@ -13,6 +13,14 @@ const useAnalyticsEventTracker = (category="Lading") => {
   return eventTracker;
 }
 
+    //@ts-ignore
+const formatCurrency = (value) => {
+  if (!value) return "";
+  const number = parseFloat(value.replace(/[^\d]/g, ""));
+  if (isNaN(number)) return "";
+  return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+};    
+
 function App() {
   const gaEventOpenFormTracker = useAnalyticsEventTracker('Open Form');
 
@@ -76,6 +84,16 @@ function App() {
       });
     }
   };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'budget') {
+      setFormData({
+      ...formData,
+      [name]: formatCurrency(value),
+      });
+    }
+};
 
   const handleChangeContact = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -811,14 +829,14 @@ function App() {
                     </label>
 
                     <div className="flex items-center mt-2">
-                      <span className="mr-2">R$</span>
                       <input
-                        type="number"
+                        type="text"
                         id="budget"
                         name="budget"
                         placeholder="Orçamento"
                         value={formData.budget}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         className="w-full p-2 border border-gray-300 rounded"
                       />
                     </div>
