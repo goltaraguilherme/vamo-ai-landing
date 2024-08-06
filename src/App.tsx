@@ -79,7 +79,7 @@ function App() {
     try {
       setIsLoading(true);
       await axios.post(
-        "https://api-send-mailer.vercel.app/send_email",
+        "https://apisendmailer.onrender.com/utils/send_email",
         {
           respostas: JSON.stringify(formContactData),
           type: "Contato"
@@ -105,7 +105,7 @@ function App() {
       if (formData.email !== "") {
         setIsLoading(true);
         await axios.post(
-          "https://api-send-mailer.vercel.app/send_email",
+          "https://apisendmailer.onrender.com/utils/send_email",
           {
             respostas: JSON.stringify(formData),
             type: "Respostas Forms"
