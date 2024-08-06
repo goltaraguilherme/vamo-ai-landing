@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import ReactGA from 'react-ga4';
 import "./index.css";
+import * as dotenv from "dotenv"
+
+dotenv.config()
+
+const useAnalyticsEventTracker = (category="Lading") => {
+  const eventTracker = (action = "test action", label = "test label") => {
+    ReactGA.event({category, action, label});
+  }
+  return eventTracker;
+}
 
 function App() {
+  //@ts-ignore
+  ReactGA.initialize(process.env.TRACKING_ID);
+  const gaEventOpenFormTracker = useAnalyticsEventTracker('Open Form');
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formContactData, setFormContactData] = useState({
     name: "",
@@ -129,6 +144,15 @@ function App() {
     }
   }
 
+
+  useEffect(() => {
+    ReactGA.send({
+      hitType: "pageView",
+      page: window.location.pathname + window.location.search,
+      
+    })
+  }, [window.location.pathname + window.location.search])
+
   return (
     <>
       <header className="fixed w-screen bg-[#91F4CB] py-4 shadow-xl">
@@ -152,7 +176,11 @@ function App() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline" onClick={() => setFormIsOpen(true)} >
+                <a href="#" className="hover:underline" 
+                    onClick={() => {
+                      gaEventOpenFormTracker("open")
+                      setFormIsOpen(true)}} 
+                    >
                   Formulário
                 </a>
               </li>
@@ -179,7 +207,9 @@ function App() {
           </p>
           <button 
             className="bg-[#7371f9] mt-16 md:mt-10 shadow-lg font-bold text-white py-4 px-10 rounded-full hover:bg-[#6360fd]"
-            onClick={() => setFormIsOpen(true)}>
+            onClick={() => {
+              gaEventOpenFormTracker("open")
+              setFormIsOpen(true)}} >
             Ir para formulário
           </button>
         </div>
@@ -244,7 +274,9 @@ function App() {
           <div className="flex items-center justify-center">
             <button 
               className="bg-[#7371f9] text-lg mt-10 shadow-xl font-bold text-white py-5 px-10 rounded-full hover:bg-[#6360fd]"
-              onClick={() => setFormIsOpen(true)}>
+              onClick={() => {
+                gaEventOpenFormTracker("open")
+                setFormIsOpen(true)}} >
               Gerar meu roteiro personalizado
             </button>
           </div>
