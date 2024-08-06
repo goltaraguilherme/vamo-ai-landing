@@ -3,7 +3,6 @@ import axios from "axios";
 import "./index.css";
 
 function App() {
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formContactData, setFormContactData] = useState({
     name: "",
@@ -36,23 +35,24 @@ function App() {
   const [formPage, setFormPage] = useState<number>(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    //@ts-ignore
     const { name, value, type, checked } = e.target;
-
+  
     if (type === 'checkbox') {
-      if (checked) {
-        setFormData({
-          ...formData,
-          //@ts-ignore
-          [name]: [...formData[name], value],
-        });
-      } else {
-        setFormData({
-          ...formData,
-          //@ts-ignore
-          [name]: formData[name].filter((item: string) => item !== value),
-        });
-      }
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        [name]: checked 
+          ? [...(prevFormData[name] || []), value]
+          : (prevFormData[name] || []).filter((item: string) => item !== value)
+      }));
+    } else if (name.startsWith("spendingPriority.")) {
+      const key = name.split(".")[1];
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        spendingPriority: {
+          ...prevFormData.spendingPriority,
+          [key]: value,
+        }
+      }));
     } else {
       setFormData({
         ...formData,
@@ -60,60 +60,69 @@ function App() {
       });
     }
   };
+  
 
   const handleChangeContact = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
-    //@ts-ignore
-    const { name, value, type, checked } = e.target;
-      
-    setFormContactData({...formContactData, [name]: value,});
+    const { name, value } = e.target;
+
+    setFormContactData({
+      ...formContactData,
+      [name]: value,
+    });
   };
 
-  async function sendContactEmail(){
+  async function sendContactEmail() {
     try {
-      setIsLoading(true)
-      await axios.post("https://api-send-mailer.vercel.app/send_email", {
-        respostas: JSON.stringify(formContactData),
-        type: "Contato"
-      },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "https://seuroteiro.vercel.app/"
+      setIsLoading(true);
+      await axios.post(
+        "https://api-send-mailer.vercel.app/send_email",
+        {
+          respostas: JSON.stringify(formContactData),
+          type: "Contato"
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "https://seuroteiro.vercel.app/"
+          }
         }
-      })
+      );
 
-      alert("Mensagem enviada com sucesso. Agradecemos pelo feedback! :)")
+      alert("Mensagem enviada com sucesso. Agradecemos pelo feedback! :)");
     } catch (err) {
-      console.log(err)
-      alert("Erro ao enviar mensagem. Tente novamente mais tarde.")
-    } finally{
-      setIsLoading(false)
+      console.log(err);
+      alert("Erro ao enviar mensagem. Tente novamente mais tarde.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  async function sendFormEmail(){
+  async function sendFormEmail() {
     try {
-      if(formData.email != ""){
-        setIsLoading(true)
-        await axios.post("https://api-send-mailer.vercel.app/send_email", {
-          respostas: JSON.stringify(formData),
-          type: "Respostas Forms"
-        },{
-          headers: {
-            "Access-Control-Allow-Origin": "https://seuroteiro.vercel.app//"
+      if (formData.email !== "") {
+        setIsLoading(true);
+        await axios.post(
+          "https://api-send-mailer.vercel.app/send_email",
+          {
+            respostas: JSON.stringify(formData),
+            type: "Respostas Forms"
+          },
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "https://seuroteiro.vercel.app//"
+            }
           }
-        })
-  
-        alert("Parabéns, viajante! Formulário enviado com sucesso.\n\nEm torno de 3 dias enviaremos seu roteiro personalizado para o seu email! :)")
-      }else{
-        alert("Favor preencher o campo de email para que possamos enviar seu roteiro personalizado!")
+        );
+
+        alert("Parabéns, viajante! Formulário enviado com sucesso.\n\nEm torno de 3 dias enviaremos seu roteiro personalizado para o seu email! :)");
+      } else {
+        alert("Favor preencher o campo de email para que possamos enviar seu roteiro personalizado!");
       }
-      
     } catch (err) {
-      console.log(err)
-      alert("Erro ao enviar mensagem. Tente novamente mais tarde.")
-    } finally{
-      setIsLoading(false)
+      console.log(err);
+      alert("Erro ao enviar mensagem. Tente novamente mais tarde.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -315,7 +324,7 @@ function App() {
           </header>
 
           <div className="flex flex-col flex-1 mt-6">
-            {formPage == 0 ? (
+            {formPage === 0 ? (
               <>
                 <h1 className="text-xl font-bold">
                   Para começar precisamos te conhecer um pouco
@@ -431,7 +440,7 @@ function App() {
                   </div>
                 </div>
               </>
-            ) : formPage == 1 ? (
+            ) : formPage === 1 ? (
               <>
                 <div className="mt-6 flex gap-8">
                   <div className="flex flex-col flex-1 gap-4">
@@ -449,6 +458,7 @@ function App() {
                           id="carrop"
                           name="transportation"
                           value="Carro próprio"
+                          checked={formData.transportation.includes("Carro próprio")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -458,41 +468,47 @@ function App() {
                       <div className="flex items-center">
                         <input
                           type="checkbox"
-                          id="carroa"
+                          id="carroA"
                           name="transportation"
                           value="Carro alugado"
+                          checked={formData.transportation.includes("Carro alugado")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
-                        <label htmlFor="carroa">Carro alugado</label>
+                        <label htmlFor="carroA">Carro alugado</label>
                       </div>
 
                       <div className="flex items-center">
                         <input
                           type="checkbox"
-                          id="transp"
+                          id="transP"
                           name="transportation"
-                          value="Transporte pub"
+                          value="Transporte público"
+                          checked={formData.transportation.includes("Transporte público")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
-                        <label htmlFor="transp">Transporte público</label>
+                        <label htmlFor="transP">Transporte público</label>
                       </div>
 
                       <div className="flex items-center">
                         <input
                           type="checkbox"
-                          id="taxi"
+                          id="taxiUber"
                           name="transportation"
-                          value="Taxi"
+                          value="Uber/Táxi"
+                          checked={formData.transportation.includes("Uber/Táxi")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
-                        <label htmlFor="taxi">Uber/Táxi</label>
+                        <label htmlFor="taxiUber">Uber/Táxi</label>
                       </div>
                     </div>
                     <div className="mb-4 flex-1">
-                      <label htmlFor="company" className="block text-gray-700 font-bold mb-2">
+                      <label
+                        htmlFor="company"
+                        className="block text-gray-700 font-bold mb-2"
+                      >
                         Quem será sua companhia nesta viagem?
                       </label>
                       <div className="flex items-center">
@@ -501,42 +517,43 @@ function App() {
                           id="solo"
                           name="company"
                           value="Solo"
+                          checked={formData.company.includes("Solo")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
                         <label htmlFor="solo">Vou sozinho</label>
                       </div>
-
                       <div className="flex items-center">
                         <input
                           type="checkbox"
                           id="casal"
                           name="company"
                           value="Casal"
+                          checked={formData.company.includes("Casal")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
                         <label htmlFor="casal">Minha parceira(o)</label>
                       </div>
-
                       <div className="flex items-center">
                         <input
                           type="checkbox"
                           id="amigos"
                           name="company"
                           value="Amigos"
+                          checked={formData.company.includes("Amigos")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
                         <label htmlFor="amigos">Amigos</label>
                       </div>
-
                       <div className="flex items-center">
                         <input
                           type="checkbox"
                           id="familia"
                           name="company"
                           value="Familia"
+                          checked={formData.company.includes("Familia")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -556,6 +573,7 @@ function App() {
                         id="hotel"
                         name="accommodation"
                         value="Hotel"
+                        checked={formData.accommodation.includes("Hotel")}
                         onChange={handleChange}
                         className="cursor-pointer mr-3"
                       />
@@ -568,6 +586,7 @@ function App() {
                         id="pousada"
                         name="accommodation"
                         value="Pousada"
+                        checked={formData.accommodation.includes("Pousada")}
                         onChange={handleChange}
                         className="cursor-pointer mr-3"
                       />
@@ -580,6 +599,7 @@ function App() {
                         id="airbnb"
                         name="accommodation"
                         value="Airbnb"
+                        checked={formData.accommodation.includes("Airbnb")}
                         onChange={handleChange}
                         className="cursor-pointer mr-3"
                       />
@@ -592,6 +612,7 @@ function App() {
                         id="hostel"
                         name="accommodation"
                         value="Hostel"
+                        checked={formData.accommodation.includes("Hostel")}
                         onChange={handleChange}
                         className="cursor-pointer mr-3"
                       />
@@ -601,22 +622,24 @@ function App() {
                     <div className="flex items-center mt-2">
                       <input
                         type="text"
-                        id=""
-                        name="accommodation"
+                        id="accommodationOther"
+                        name="accommodationOther"
                         placeholder="Já sei onde ficar"
+                        value={formData.accommodationOther}
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
+                        required
                       />
                     </div>
                   </div>
                 </div>
               </>
-            ) : formPage == 2 ? (
+            ) : formPage === 2 ? (
               <>
                 <div className="mt-6 flex gap-8">
                   <div className="flex flex-col flex-1 gap-4">
                     <div className="flex flex-col mb-4 flex-1">
-                      <label
+                    <label
                         htmlFor="interests"
                         className="block text-gray-700 font-bold mb-2"
                       >
@@ -629,6 +652,7 @@ function App() {
                           id="praias"
                           name="interests"
                           value="Praias"
+                          checked={formData.interests.includes("Praias")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -641,6 +665,7 @@ function App() {
                           id="montanha"
                           name="interests"
                           value="Montanha"
+                          checked={formData.interests.includes("Montanha")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -653,6 +678,7 @@ function App() {
                           id="trilha"
                           name="interests"
                           value="trilha"
+                          checked={formData.interests.includes("trilha")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -665,6 +691,7 @@ function App() {
                           id="cacho"
                           name="interests"
                           value="Cachoeiras"
+                          checked={formData.interests.includes("Cachoeiras")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -677,6 +704,7 @@ function App() {
                           id="cultura"
                           name="interests"
                           value="Cultura"
+                          checked={formData.interests.includes("Cultura")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -689,6 +717,7 @@ function App() {
                           id="rest"
                           name="interests"
                           value="Restaurantes"
+                          checked={formData.interests.includes("Restaurantes")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -701,6 +730,7 @@ function App() {
                           id="vidanot"
                           name="interests"
                           value="Vida noturna"
+                          checked={formData.interests.includes("Vida noturna")}
                           onChange={handleChange}
                           className="cursor-pointer mr-3"
                         />
@@ -711,9 +741,9 @@ function App() {
                         <input
                           type="text"
                           id="outro"
-                          name="interests"
-                          value=""
+                          name="outro"
                           placeholder="Outro"
+                          value={formData.outro || ""}
                           onChange={handleChange}
                           className="w-full p-2 border border-gray-300 rounded"
                         />
@@ -732,51 +762,56 @@ function App() {
                         id="budget"
                         name="budget"
                         placeholder="Orçamento"
+                        value={formData.budget}
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
                       />
                     </div>
 
                     <div className="my-4 flex-1">
-                      <label htmlFor="spendingPriority" className="block text-gray-700 font-bold mb-2">
-                        Prioridade de gastos (enumerar de 1 a 3)
-                      </label>
+                    <label htmlFor="spendingPriority" className="block text-gray-700 font-bold mb-2">
+                      Prioridade de gastos (enumerar de 1 a 3)
+                    </label>
 
-                      <div className="flex items-center mt-2">
-                        <label>Alimentação</label>
-                        <input
-                          type="number"
-                          id="food"
-                          name="spendingPriority.food"
-                          placeholder="Prioridade"
-                          onChange={handleChange}
-                          className="ml-2 w-full p-2 border border-gray-300 rounded"
-                        />
-                      </div>
+                    <div className="flex items-center mt-2">
+                      <label>Alimentação</label>
+                      <input
+                        type="number"
+                        id="food"
+                        name="spendingPriority.food"
+                        value={formData.spendingPriority.food}
+                        placeholder="Prioridade"
+                        onChange={handleChange}
+                        className="ml-2 w-full p-2 border border-gray-300 rounded"
+                      />
+                    </div>
 
-                      <div className="flex items-center mt-2">
-                        <label>Passeios</label>
-                        <input
-                          type="number"
-                          id="tours"
-                          name="spendingPriority.tours"
-                          placeholder="Prioridade"
-                          onChange={handleChange}
-                          className="ml-2 w-full p-2 border border-gray-300 rounded"
-                        />
-                      </div>
+                    <div className="flex items-center mt-2">
+                      <label>Passeios</label>
+                      <input
+                        type="number"
+                        id="tours"
+                        name="spendingPriority.tours"
+                        value={formData.spendingPriority.tours}
+                        placeholder="Prioridade"
+                        onChange={handleChange}
+                        className="ml-2 w-full p-2 border border-gray-300 rounded"
+                      />
+                    </div>
 
-                      <div className="flex items-center mt-2">
-                        <label>Hospedagens</label>
-                        <input
-                          type="number"
-                          id="accommodation"
-                          name="spendingPriority.accommodation"
-                          placeholder="Prioridade"
-                          onChange={handleChange}
-                          className="ml-2 w-full p-2 border border-gray-300 rounded"
-                        />
-                      </div>
+                    <div className="flex items-center mt-2">
+                      <label>Hospedagens</label>
+                      <input
+                        type="number"
+                        id="accommodation"
+                        name="spendingPriority.accommodation"
+                        value={formData.spendingPriority.accommodation}
+                        placeholder="Prioridade"
+                        onChange={handleChange}
+                        className="ml-2 w-full p-2 border border-gray-300 rounded"
+                      />
+                    </div>
+
                     </div>
                   </div>
                 </div>
@@ -795,6 +830,7 @@ function App() {
                         id="specificAttraction"
                         name="specificAttraction"
                         placeholder="Nome da atração"
+                        value={formData.specificAttraction}
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
                       />
@@ -811,6 +847,7 @@ function App() {
                           id="excludeAttraction"
                           name="excludeAttraction"
                           placeholder="Nome da atração"
+                          value={formData.excludeAttraction}
                           onChange={handleChange}
                           className="w-full p-2 border border-gray-300 rounded"
                         />
@@ -828,6 +865,7 @@ function App() {
                         id="additionalComments"
                         name="additionalComments"
                         placeholder="Comentários extras"
+                        value={formData.additionalComments}
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
                       />
@@ -842,25 +880,25 @@ function App() {
           <div className="flex gap-2 w-full justify-center items-center mb-8">
             <button
               className={`w-2 h-2 ${
-                formPage == 0 ? "bg-[#91F4CB]" : "bg-[#868686]"
+                formPage === 0 ? "bg-[#91F4CB]" : "bg-[#868686]"
               } rounded-full`}
               onClick={() => setFormPage(0)}
             />
             <button
               className={`w-2 h-2 ${
-                formPage == 1 ? "bg-[#91F4CB]" : "bg-[#868686]"
+                formPage === 1 ? "bg-[#91F4CB]" : "bg-[#868686]"
               } rounded-full`}
               onClick={() => setFormPage(1)}
             />
             <button
               className={`w-2 h-2 ${
-                formPage == 2 ? "bg-[#91F4CB]" : "bg-[#868686]"
+                formPage === 2 ? "bg-[#91F4CB]" : "bg-[#868686]"
               } rounded-full`}
               onClick={() => setFormPage(2)}
             />
             <button
               className={`w-2 h-2 ${
-                formPage == 3 ? "bg-[#91F4CB]" : "bg-[#868686]"
+                formPage === 3 ? "bg-[#91F4CB]" : "bg-[#868686]"
               } rounded-full`}
               onClick={() => setFormPage(3)}
             />
@@ -869,17 +907,18 @@ function App() {
           <div className="flex w-full justify-around">
             <button
               className="w-[30%] py-4 px-6 text-red-500 font-bold border-red-500 border rounded-full"
-              onClick={() => formPage == 0 ? setFormIsOpen(false) : setFormPage(formPage - 1)}
+              onClick={() => formPage === 0 ? setFormIsOpen(false) : setFormPage(formPage - 1)}
             >
-              {formPage == 0 ? "Cancelar" : "Voltar"}
+              {formPage === 0 ? "Cancelar" : "Voltar"}
             </button>
 
             <button
               className="w-[30%] py-4 px-6 bg-[#91F4CB] font-bold border-[#91F4CB] border rounded-full "
               onClick={() => {
-                formPage == 3 ? sendFormEmail() : setFormPage(formPage <= 2 ? formPage + 1 : formPage)
-              }}>
-              {formPage == 3 ? "Enviar" : "Avançar"}
+                formPage === 3 ? sendFormEmail() : setFormPage(formPage + 1);
+              }}
+            >
+              {formPage === 3 ? "Enviar" : "Avançar"}
             </button>
           </div>
         </div>
