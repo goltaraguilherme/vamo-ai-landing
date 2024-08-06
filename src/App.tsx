@@ -3,6 +3,9 @@ import axios from "axios";
 import ReactGA from 'react-ga4';
 import "./index.css";
 
+
+ReactGA.initialize("G-7P5B306WGR");
+
 const useAnalyticsEventTracker = (category="Lading") => {
   const eventTracker = (action = "test action", label = "test label") => {
     ReactGA.event({category, action, label});
@@ -11,7 +14,6 @@ const useAnalyticsEventTracker = (category="Lading") => {
 }
 
 function App() {
-  ReactGA.initialize("G-7P5B306WGR");
   const gaEventOpenFormTracker = useAnalyticsEventTracker('Open Form');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -44,7 +46,7 @@ function App() {
     additionalComments: "",
   });
   const [formPage, setFormPage] = useState<number>(0);
-
+ 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     //@ts-ignore
     const { name, value, type, checked } = e.target;
@@ -74,7 +76,6 @@ function App() {
       });
     }
   };
-  
 
   const handleChangeContact = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -129,6 +130,7 @@ function App() {
         );
 
         alert("Parabéns, viajante! Formulário enviado com sucesso.\n\nEm torno de 3 dias enviaremos seu roteiro personalizado para o seu email! :)");
+        setFormIsOpen(false);
       } else {
         alert("Favor preencher o campo de email para que possamos enviar seu roteiro personalizado!");
       }
@@ -809,6 +811,7 @@ function App() {
                     </label>
 
                     <div className="flex items-center mt-2">
+                      <span className="mr-2">R$</span>
                       <input
                         type="number"
                         id="budget"
@@ -969,8 +972,9 @@ function App() {
               onClick={() => {
                 formPage === 3 ? sendFormEmail() : setFormPage(formPage + 1);
               }}
+              disabled={isLoading}
             >
-              {formPage === 3 ? "Enviar" : "Avançar"}
+              {isLoading ? "Carregando..." : formPage === 3 ? "Enviar" : "Avançar"}
             </button>
           </div>
         </div>
