@@ -218,8 +218,9 @@ function App() {
           <p className="px-8 md:p-0 mt-24 md:mt-14 leading-normal -tracking-tighter">
             Viajar é uma das maiores alegrias da vida, mas planejar um roteiro
             perfeito pode ser desafiador. Encontre o destino ideal e as
-            atividades mais incríveis, tudo personalizado para você. Responda a
-            algumas perguntas simples e deixe o resto conosco!
+            atividades mais incríveis, tudo personalizado para você. <br />
+            Responda a algumas perguntas simples e deixe o resto conosco! <br /> 
+            Estamos em versão beta, então aproveite para testar gratuitamente! :) 
           </p>
           <button 
             className="bg-[#7371f9] mt-16 md:mt-10 shadow-lg font-bold text-white py-4 px-10 rounded-full hover:bg-[#6360fd]"
@@ -275,7 +276,7 @@ function App() {
               <img src="./imgitin.png" alt="Placeholder" className="mb-4" />
               <h3 className="font-bold text-xl">Receba seu roteiro</h3>
               <p className="text-gray-700">
-                Receba um roteiro personalizado baseado em suas respostas.
+                Em apenas 3 dias receba um roteiro personalizado baseado em suas respostas.
               </p>
             </div>
             <div className="flex flex-col flex-1 p-4 gap-4 bg-white rounded-2xl">
