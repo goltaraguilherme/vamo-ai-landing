@@ -17,7 +17,6 @@ input {
 }
 
 body {
-  @apply bg-white;
   -webkit-font-smoothing: antialiased;
 }
 

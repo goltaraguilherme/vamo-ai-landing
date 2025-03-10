@@ -171,9 +171,11 @@ function App() {
 
   return (
     <>
-      <header className="fixed w-screen bg-[#91F4CB] py-4 shadow-xl">
+      <header className="bg-[white] w-screen py-4">
         <div className="container max-w-[2560px] flex md:justify-between items-center">
-          <h1 className="text-4xl font-light ml-8 md:ml-0">SeuRoteiro</h1>
+          <div className="">
+            <img src="./logovamo.PNG" alt="" className="h-auto max-h-16 w-auto max-w-[200px]" />
+          </div>
           <nav className="flex flex-1 justify-end mr-8 md:mr-0">
             <ul className="flex font-light space-x-8">
               <li className="hidden sm:flex">
@@ -192,12 +194,8 @@ function App() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline" 
-                    onClick={() => {
-                      gaEventOpenFormTracker("open")
-                      setFormIsOpen(true)}} 
-                    >
-                  Formulário
+                <a href="#why-vamo-ai" className="hover:underline">
+                  Soluções para parceiros
                 </a>
               </li>
               <li className="hidden sm:flex">
@@ -210,12 +208,12 @@ function App() {
         </div>
       </header>
 
-      <section id="hero" className="flex bg-white h-screen py-16">
-        <div className="container max-w-[2560px] mt-40 text-[#2E2E2E] text-center md:text-left md:w-[60%]">
-          <h2 className="px-8 md:p-0 text-5xl font-bold leading-tight">
+      <section id="hero" className="flex bg-white h-screen py-12">
+        <div className="container max-w-[2560px] mt-32 text-[#2E2E2E] text-center md:text-left md:w-[60%]">
+          <h2 className="px-8 md:p-0 text-5xl text-[#010039] font-bold leading-tight">
             Encontre o Roteiro Perfeito para Você!
           </h2>
-          <p className="px-8 md:p-0 mt-24 md:mt-14 leading-normal -tracking-tighter">
+          <p className="px-8 md:p-0 mt-24 md:mt-14 text-[#010039] leading-normal -tracking-tighter">
             Viajar é uma das maiores alegrias da vida, mas planejar um roteiro
             perfeito pode ser desafiador. Encontre o destino ideal e as
             atividades mais incríveis, tudo personalizado para você. <br />
@@ -223,15 +221,16 @@ function App() {
             Estamos em versão beta, então aproveite para testar gratuitamente! :) 
           </p>
           <button 
-            className="bg-[#7371f9] mt-16 md:mt-10 shadow-lg font-bold text-white py-4 px-10 rounded-full hover:bg-[#6360fd]"
+            className="bg-[#030086] mt-16 md:mt-10 shadow-lg font-bold text-white py-4 px-10 rounded-full hover:bg-[#6360fd]"
             onClick={() => {
               gaEventOpenFormTracker("open")
-              setFormIsOpen(true)}} >
-            Ir para formulário
+              window.open("https://wa.me/message/SACS23TQVAKOF1", "_blank")
+              }} >
+            Gerar roteiro
           </button>
         </div>
-        <div className="hidden md:flex w-[40%] -mr-20">
-          <img src="./imghero.png" alt="" />
+        <div className="hidden md:flex">
+          <img src="./celulares.png" className="" alt="" />
         </div>
       </section>
 
@@ -239,8 +238,8 @@ function App() {
         id="about"
         className="py-16 text-[#2E2E2E] text-center md:text-left"
       >
-        <div className="flex items-center justify-center p-8 bg-[#91F4CB]">
-          <h2 className="px-8 md:p-0 font-medium text-4xl">Quem somos</h2>
+        <div className="flex items-center justify-center p-8 bg-[#030086]">
+          <h2 className="px-8 md:p-0 font-medium text-[white] text-4xl">Quem somos</h2>
         </div>
 
         <div className="container max-w-[2560px] mt-14">
@@ -258,44 +257,103 @@ function App() {
 
       <section
         id="how-it-works"
-        className="bg-[#91F4CB] h-full md:h-screen py-16"
+        className="h-full md:h-screen py-16"
       >
         <div className="container max-w-[2560px]">
-          <h2 className="px-8 md:p-0 font-medium text-4xl mb-12">
+          <h2 className="flex items-center justify-center p-8 text-[#010039] md:p-0 font-medium text-4xl mb-12">
             Como funciona
           </h2>
           <div className="px-8 md:p-0 flex md:flex-row flex-col gap-8 items-center justify-between text-center">
-            <div className="flex flex-col flex-1 p-4 gap-4 bg-white rounded-2xl">
+            <div className="flex flex-col md:flex-1 p-4 gap-4 bg-white rounded-2xl border border-[#010039]">
               <img src="./imgform.png" alt="Placeholder" className="mb-4" />
-              <h3 className="font-bold text-xl">Preencha o formulário</h3>
-              <p className="text-gray-700">
-                Responda algumas perguntas sobre suas preferências de viagem.
+              <h3 className="font-bold text-[#010039] text-xl">Preencha o formulário</h3>
+              <p className="text-[#010039]">
+                Compartilhe suas preferências e interesses em um rápido formulário.
               </p>
             </div>
-            <div className="flex flex-col flex-1 p-4 gap-4 bg-white rounded-2xl">
+            <div className="flex flex-col md:flex-1 p-4 gap-4 bg-white rounded-2xl border border-[#010039]">
               <img src="./imgitin.png" alt="Placeholder" className="mb-4" />
-              <h3 className="font-bold text-xl">Receba seu roteiro</h3>
-              <p className="text-gray-700">
-                Em apenas 3 dias receba um roteiro personalizado baseado em suas respostas.
+              <h3 className="font-bold text-[#010039] text-xl">Receba seu roteiro</h3>
+              <p className="text-[#010039]">
+                Nosso algoritmo cria um roteiro sob medida para você e envia para o seu WhatsApp.
               </p>
             </div>
-            <div className="flex flex-col flex-1 p-4 gap-4 bg-white rounded-2xl">
+            <div className="flex flex-col md:flex-1 p-4 gap-4 bg-white rounded-2xl border border-[#010039]">
               <img src="./imgtravel.png" alt="Placeholder" className="mb-4" />
-              <h3 className="font-bold text-xl">Aproveite sua viagem</h3>
-              <p className="text-gray-700">
-                Desfrute de uma viagem incrível com um roteiro feito para você.
+              <h3 className="font-bold text-[#010039] text-xl">Aproveite sua viagem</h3>
+              <p className="text-[#010039]">
+                Siga o roteiro visite nossas indicações e aproveite uma experiência de viagem única.
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="flex items-center justify-center">
-            <button 
-              className="bg-[#7371f9] text-lg mt-10 shadow-xl font-bold text-white py-5 px-10 rounded-full hover:bg-[#6360fd]"
-              onClick={() => {
-                gaEventOpenFormTracker("open")
-                setFormIsOpen(true)}} >
-              Gerar meu roteiro personalizado
-            </button>
+      <section
+        id="why-vamo-ai"
+        className="h-full md:h-screen py-16"
+      >
+        <div className="container h-full max-w-[2560px]">
+          <h2 className="flex items-center justify-center p-8 text-[#010039] md:p-0 font-medium text-4xl mb-12">
+            Por que escolher a Vamo.AI?
+          </h2>
+          <div className="h-[100%] px-8 md:p-0 gap-4 justify-between">
+            <div className="flex flex-1 md:p-0 flex md:flex-row flex-col gap-4">
+              <div className="flex flex-col md:w-[45%] px-6 py-6 bg-[#E9E9FF] rounded-2xl">
+                <div className="flex items-center justify-center w-12 h-12 bg-[#00ADEF]  rounded-xl">
+                  <img src="./Goal.png" alt="" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#010039] text-xl mt-10">
+                    Mais Visibilidade e Posicionamento Estratégico
+                  </h3>
+                  <p className="text-[#010039] mt-4">
+                    Atraia turistas no momento certo com recomendações direcionadas e anúncios mais precisos, maximizando seu alcance e ocupação.
+                  </p>
+                </div>
+              </div>
+              <div className="md:w-[55%] px-6 py-6 bg-[#030086] rounded-2xl text-[white]">
+                <div className="flex items-center justify-center w-12 h-12 bg-[#4543AD]  rounded-xl">
+                  <img src="./Chat.png" alt="" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mt-10">
+                    Atendimento Automatizado (Em breve)
+                  </h3>
+                  <p className="mt-4">
+                    Reduza o tempo de resposta e melhore a experiência do cliente com suporte automatizado, garantindo mais eficiência para seu negócio.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-1 md:p-0 flex md:flex-row flex-col gap-4 mt-4">
+              <div className="md:w-[55%] px-6 py-6 bg-[#E9E9FF] rounded-2xl">
+                <div className="flex items-center justify-center w-12 h-12 bg-[#00ADEF]  rounded-xl">
+                  <img src="./Reserve.png" alt="" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#010039] text-xl mt-10">
+                    Reservas Simplificadas e Diretas (Em breve)                  
+                  </h3>
+                  <p className="text-[#010039] mt-4">
+                    Facilite a reserva de atrações, hospedagens e restaurantes diretamente pelo WhatsApp, sem burocracia e com maior taxa de conversão.
+                  </p>
+                </div>
+              </div>
+              <div className="md:w-[45%] px-6 py-6 bg-[#030086] rounded-2xl text-[white]">
+                <div className="flex items-center justify-center w-12 h-12 bg-[#4543AD]  rounded-xl">
+                  <img src="./Line Chart.png" alt="" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mt-10">
+                    Insights e Inteligência de Mercado (Em breve)
+                  </h3>
+                  <p className="mt-4">
+                    Tenha acesso a dados valiosos sobre o comportamento dos turistas para otimizar sua oferta e estratégias de marketing.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -351,15 +409,15 @@ function App() {
             ></textarea>
             <button 
               type="submit"
-              className="bg-[#7371f9] shadow-md text-white py-3 px-8 rounded-lg hover:bg-purple-700">
+              className="bg-[#030086] shadow-md text-white py-3 px-8 rounded-lg hover:bg-purple-700">
               {isLoading ? "Carregando" : "Enviar"}
             </button>
           </form>
         </div>
       </section>
 
-      <footer className="bg-[#91F4CB] text-center p-4">
-        <p>&copy; 2024 SeuRoteiro. Todos os direitos reservados.</p>
+      <footer className="bg-[#030086] text-white text-center p-4">
+        <p>&copy; 2025 Vamo.AI. Todos os direitos reservados.</p>
       </footer>
 
       {formIsOpen && (
