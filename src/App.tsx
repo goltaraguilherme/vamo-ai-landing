@@ -171,7 +171,7 @@ function App() {
 
   return (
     <>
-      <header className="bg-[white] w-screen py-4">
+      <header className="bg-[white] w-[100%] py-4">
         <div className="container max-w-[2560px] flex md:justify-between items-center">
           <div className="">
             <img src="./logovamo.PNG" alt="" className="h-auto max-h-16 w-auto max-w-[200px]" />
@@ -360,7 +360,7 @@ function App() {
 
       <section
         id="contact"
-        className="flex w-screen bg-white py-16 text-[#2E2E2E]"
+        className="flex w-[100%] bg-white py-16 text-[#2E2E2E]"
       >
         <div className="hidden md:flex container max-w-[2560px] pr-0">
           <img src="./imgcontact.png" alt="" />
